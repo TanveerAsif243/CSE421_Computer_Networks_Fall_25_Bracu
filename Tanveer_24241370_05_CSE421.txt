@@ -1,0 +1,80 @@
+﻿1.         Enter global configuration mode.
+	 
+	Router> en
+Router# config t
+	2.         Configure hostname, enable password and enable secret.
+	 
+	Router(config)#hostname R1
+R1(config)#enable secret class
+R1(config)#enable password cisco
+ 
+ 
+	
+
+
+
+    3.         Configure the interfaces.
+	 
+	#interface fastethernet 0/0
+R1(config)#interface fastethernet0/0
+R1(config-if)#ip address 192.168.1.1 255.255.255.0
+R1(config-if)#no shutdown
+R1(config)#intinterface serial 0/0/0
+R1(config-if)#ip address 192.168.2.1 255.255.255.0
+R1(config-if)#clock rate 64000
+R1(config-if)#no shutdown
+ 
+	4.         Configure the routing protocol and table.
+	
+
+	R1(config)#router rip
+R1(config-router)#network 192.168.14.0
+R1(config-router)#network 192.168.15.0
+R1(config-router)#exit
+ 
+	5.         Configure the line console and line  vty 0 4 (the telnet login).
+	 
+	Router(config)#line console 0
+Router(config-line)#login
+Router(config-line)#password cisco
+Router(config-line)#exit
+Router(config)#
+Router(config)#line vty 0 4
+Router(config-line)#login
+Router(config-line)#password class
+Router(config-line)#exit
+Router(config)#
+ 
+	6.         Save the running configuration to NVRAM.
+	 
+	R1#copy run start
+	7. configuring static route
+	 
+	R1(config)#ip route 192.168.16.0 255.255.255.0 192.168.15.2 
+	8. interface description
+	 
+	R1(config)#interface FastEthernet0/0
+R1(config-if)#
+R1(config-if)# interface Serial0/0/0
+R1(config-if)#
+
+
+
+
+
+
+	9. 	
+
+	
+
+R1(config)# banner motd &
+Enter TEXT message. End with the character '&'.
+********************************
+!!!AUTHORIZED ACCESS ONLY!!!
+******************************** 
+
+
+	[Same way follows for R2.]
+
+
+Because the enable secret command is preferred - it encrypts the password, while enable password stores it in plain text. So using an enabled password is not necessary or secure.
